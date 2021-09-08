@@ -1,8 +1,0 @@
-.pic{
-    width:240
-}
-
-    @media screen  and (max-width:760px) {
-        .pic{width:"45%" !important}
-
-    }

@@ -1,18 +1,14 @@
-import "../styles/imageStyles.css";
+import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import styles from "../styles/imageStyles.js";
+import { makeStyles } from "@material-ui/core";
+const useStyles = makeStyles(styles);
 const ImageComponent = (props) => {
+  const classes = useStyles();
   const { src } = props;
   return (
-    <div>
-      <img
-        class="pic"
-        style={{
-          height: 170,
-          width: 240,
-          marginBottom: 20,
-          marginRight: 24,
-        }}
-        src={src}
-      />
+    <div className={classes.container}>
+      <img className={classes.pic} src={src} alt="" />
     </div>
   );
 };

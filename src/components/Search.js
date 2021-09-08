@@ -3,11 +3,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { fetchImages } from "../redux/Actions";
 import "../styles/searchStyles.css";
-import SearchIcon from "@material-ui/icons/Search";
-import fetchData from "../services/fetchData";
 import ImageComponent from "./imageComponent";
-import { LaptopWindows } from "@material-ui/icons";
-import { Paper } from "@material-ui/core";
 
 const SearchEngine = ({ fetchImages, imageData }) => {
   const [query, setQuery] = useState("");
@@ -39,7 +35,7 @@ const SearchEngine = ({ fetchImages, imageData }) => {
         return (
           <div
             className="col-12 d-flex flex-row justify-content-center"
-            style={{ flexWrap: "wrap" }}
+            style={{ flexWrap: "wrap", marginLeft: 20 }}
           >
             {imageData.images.results.slice(0, limit).map((image) => (
               <ImageComponent src={image.urls.small} />
@@ -93,7 +89,7 @@ const SearchEngine = ({ fetchImages, imageData }) => {
     <div class="container">
       <div class="row">
         <div
-          class="col-12 d-flex flex-column justify-content-center "
+          class="col-12 d-flex flex-column justify-content-center m-auto "
           style={{ alignItems: "center" }}
         >
           <div class="d-flex col-12 flex-row justify-content-center">
@@ -123,6 +119,7 @@ const SearchEngine = ({ fetchImages, imageData }) => {
                   id="searchInput"
                 />
                 <button
+                  className="button"
                   type="submit"
                   style={{
                     borderStyle: "solid",
