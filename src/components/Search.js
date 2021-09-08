@@ -6,28 +6,38 @@ import "../styles/searchStyles.css";
 import ImageComponent from "./imageComponent";
 
 const SearchEngine = ({ fetchImages, imageData }) => {
+  console.log(imageData);
   const [query, setQuery] = useState("");
-  let search = "";
+  let search = query;
   const updateQuery = (e) => {
-    search = e.target.value;
+    search = document.getElementById("searchInput").value;
   };
 
   const [limit, setLimit] = useState(10);
   const [present, setPresent] = useState(1);
 
   const getResults = (e) => {
+    imageData.images.results = [];
     e.preventDefault();
     setLimit(10);
-    setQuery(search);
+    setPresent(1);
 
     fetchImages(search, present);
+    setQuery(search);
   };
 
   const increment = () => {
-    setLimit(limit + 10);
+    if (limit >= imageData.images.results.length) {
+      setPresent(present + 1);
+      fetchImages(search, present);
+    } else {
+      setLimit(limit + 10);
+    }
+    console.log(limit, present);
   };
 
   const appendResults = () => {
+    console.log(imageData);
     if (imageData) {
       if (imageData.loading) {
         return <h1>Loading ....</h1>;
@@ -50,8 +60,10 @@ const SearchEngine = ({ fetchImages, imageData }) => {
 
   const loadMore = () => {
     if (
+      imageData &&
+      imageData.images &&
       imageData.images.length !== 0 &&
-      limit <= imageData.images.results.length
+      limit <= imageData.images.total
     ) {
       return (
         <div class="col-12 d-flex flex-row justify-content-center">
@@ -102,7 +114,7 @@ const SearchEngine = ({ fetchImages, imageData }) => {
                 onSubmit={getResults}
               >
                 <input
-                  onChange={updateQuery}
+                  onKeyUp={updateQuery}
                   placeholder="Search for photos"
                   type="search"
                   class="search-input"
@@ -149,7 +161,7 @@ const SearchEngine = ({ fetchImages, imageData }) => {
             </div>
           </div>
           {numberOfImages()}
-          {appendResults()}
+          <div id="recurringContainer">{appendResults()}</div>
           {loadMore()}
         </div>
       </div>
@@ -165,7 +177,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchImages: (query, present) => dispatch(fetchImages(query, present)),
+    fetchImages: (search, present) => dispatch(fetchImages(search, present)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SearchEngine);

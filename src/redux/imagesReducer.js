@@ -8,21 +8,26 @@ const initialState = {
   loading: false,
   images: [],
   error: "",
-  pageNumber: 1,
 };
-
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_IMAGES_REQUEST:
+      action = {};
       return {
         ...state,
+        images: [],
         loading: true,
       };
     case FETCH_IMAGES_SUCCESS:
+      if (state.images && state.images.results) {
+        action.payload.results = state.images.results.concat(
+          action.payload.results
+        );
+      }
       return {
-        ...state,
         loading: false,
         images: action.payload,
+
         error: "",
       };
     case FETCH_IMAGES_FAILURE:
